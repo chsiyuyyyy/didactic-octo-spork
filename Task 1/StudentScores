@@ -1,0 +1,45 @@
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <vector>
+  
+  struct Student {
+      std::string name;
+      double scores[3]{};
+  	double average{};
+  };
+  
+   int main() {
+       int n{};
+       if (!(std::cin >> n) || n <= 0) {
+           std::cerr << "Invalid student count\n";
+  		 return 1;
+  	}
+       std::vector<Student> students(n);
+  	 std::size_t nameWidth = 0;
+  
+       for (auto& student : students) {
+  
+  		 std::cin >> student.name >> student.scores[0]
+                     >> student.scores[1] >> student.scores[2];
+           student.average = (student.scores[0] + student.scores[1]
+                             + student.scores[2]) / 3.0;
+           nameWidth = std::max(nameWidth, student.name.size());
+  	}
+  
+       std::cout << std::fixed << std::setprecision(2);
+       for (const auto& student : students) {
+           std::cout << std::left << std::setw(static_cast<int>(nameWidth))
+                     << student.name << std::right;
+           for (double score : student.scores) {
+               std::cout << std::setw(8) << score;
+  		}
+           std::cout << std::setw(8) << student.average;
+           if (student.average >= 90.0) {
+               std::cout << " Excellent";
+  		}
+           std::cout << '\n';
+  	}
+      return 0;
+  }
